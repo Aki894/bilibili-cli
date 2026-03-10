@@ -82,6 +82,26 @@ bili user-videos 946974 --max 20
 bili user-videos "影视飓风" --yaml
 ```
 
+### Series & Seasons (合集与系列)
+
+```bash
+# List all series and seasons for a UP
+bili series list 61639371
+bili series list 61639371 --format json
+
+# Get videos in a specific series
+bili series archives 61368 --mid 61639371
+bili series archives 61368 --mid 61639371 --page-size 10 --format yaml
+
+# Get videos in a specific season (合集)
+bili series season <season_id> --mid 61639371
+```
+
+**Use Cases:**
+- Track UP 主的连载系列（如直播回放、教程系列）
+- 批量获取合集内的所有视频
+- 监控系列更新（配合 `--format json` 进行程序化处理）
+
 ### Search
 
 ```bash

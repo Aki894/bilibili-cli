@@ -97,6 +97,12 @@ bili user 946974                        # UP profile
 bili user "影视飓风"                     # Search by name
 bili user-videos 946974 --max 20        # Video list
 
+# Series & Seasons (合集与系列)
+bili series list 61639371               # List UP's series/seasons
+bili series archives 61368 --mid 61639371  # Get videos in a series
+bili series season 12345 --mid 61639371    # Get videos in a season
+bili series list 61639371 --format json    # JSON output
+
 # Discovery
 bili hot                                # Trending videos (page 1)
 bili hot --page 2 --max 10              # Page 2, top 10

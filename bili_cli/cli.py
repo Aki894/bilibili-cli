@@ -17,7 +17,7 @@ import click
 
 from . import __version__
 from .commands import account, audio, collections, common, discovery, interactions, user_search, video
-
+from . import series
 
 # Keep helper names for backward compatibility with tests/importers.
 def _format_duration(seconds: int) -> str:
@@ -66,6 +66,7 @@ cli.add_command(interactions.triple)
 cli.add_command(interactions.unfollow)
 
 cli.add_command(audio.audio)
+cli.add_command(series.series)
 
 
 if __name__ == "__main__":
