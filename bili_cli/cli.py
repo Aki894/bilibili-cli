@@ -16,8 +16,7 @@ from __future__ import annotations
 import click
 
 from . import __version__
-from .commands import account, audio, collections, common, discovery, interactions, user_search, video
-from . import series
+from .commands import account, audio, collections, common, discovery, interactions, series, user_search, video
 
 # Keep helper names for backward compatibility with tests/importers.
 def _format_duration(seconds: int) -> str:

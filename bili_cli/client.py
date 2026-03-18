@@ -601,6 +601,75 @@ async def delete_dynamic(dynamic_id: int, credential: Credential) -> dict[str, A
 
 
 # ---------------------------------------------------------------------------
+# Series & Seasons
+# ---------------------------------------------------------------------------
+
+
+async def get_series_list(mid: int, credential: Credential | None = None) -> dict[str, Any]:
+    """List a user's series and seasons."""
+    url = "https://api.bilibili.com/x/polymer/web-space/seasons_series_list"
+    params = {"mid": mid, "page_size": 20, "page_num": 1}
+    headers = {"User-Agent": _USER_AGENT, "Referer": "https://www.bilibili.com"}
+
+    if credential and credential.sessdata:
+        headers["Cookie"] = f"SESSDATA={credential.sessdata}"
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=params, headers=headers) as resp:
+            resp.raise_for_status()
+            data = await resp.json()
+            if data.get("code") != 0:
+                raise BiliError(f"获取系列列表失败: [{data.get('code')}] {data.get('message')}")
+            return data.get("data", {})
+
+
+async def get_series_archives(
+    mid: int, series_id: int, pn: int = 1, ps: int = 10, credential: Credential | None = None
+) -> dict[str, Any]:
+    """Fetch videos within a series."""
+    url = "https://api.bilibili.com/x/series/archives"
+    params = {"mid": mid, "series_id": series_id, "pn": pn, "ps": ps}
+    headers = {"User-Agent": _USER_AGENT, "Referer": "https://www.bilibili.com"}
+
+    if credential and credential.sessdata:
+        headers["Cookie"] = f"SESSDATA={credential.sessdata}"
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=params, headers=headers) as resp:
+            resp.raise_for_status()
+            data = await resp.json()
+            if data.get("code") != 0:
+                raise BiliError(f"获取系列内容失败: [{data.get('code')}] {data.get('message')}")
+            return data.get("data", {})
+
+
+async def get_season_archives(
+    mid: int, season_id: int, pn: int = 1, ps: int = 10, credential: Credential | None = None
+) -> dict[str, Any]:
+    """Fetch videos within a season/collection."""
+    url = "https://api.bilibili.com/x/polymer/web-space/seasons_archives_list"
+    params = {
+        "mid": mid, 
+        "season_id": season_id, 
+        "page_num": pn, 
+        "page_size": ps,
+        "sort_reverse": "false"
+    }
+    headers = {"User-Agent": _USER_AGENT, "Referer": "https://www.bilibili.com"}
+
+    if credential and credential.sessdata:
+        headers["Cookie"] = f"SESSDATA={credential.sessdata}"
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=params, headers=headers) as resp:
+            resp.raise_for_status()
+            data = await resp.json()
+            if data.get("code") != 0:
+                raise BiliError(f"获取合集内容失败: [{data.get('code')}] {data.get('message')}")
+            return data.get("data", {})
+
+
+# ---------------------------------------------------------------------------
 # Interactions (like, coin, triple)
 # ---------------------------------------------------------------------------
 

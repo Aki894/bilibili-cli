@@ -297,3 +297,34 @@ def action_result(action: str, *, success: bool = True, **fields: Any) -> dict[s
     payload = {"success": success, "action": action}
     payload.update(fields)
     return payload
+
+
+def normalize_series(item: dict[str, Any]) -> dict[str, Any]:
+    meta = item.get("meta", {}) if isinstance(item.get("meta"), dict) else {}
+    return {
+        "id": str(meta.get("series_id", "")),
+        "name": meta.get("name", ""),
+        "total": _to_int(meta.get("total"), 0),
+        "description": meta.get("description", ""),
+    }
+
+
+def normalize_season(item: dict[str, Any]) -> dict[str, Any]:
+    meta = item.get("meta", {}) if isinstance(item.get("meta"), dict) else {}
+    return {
+        "id": str(meta.get("season_id", "")),
+        "name": meta.get("name", ""),
+        "total": _to_int(meta.get("total"), 0),
+        "description": meta.get("description", ""),
+    }
+
+
+def normalize_series_list(data: dict[str, Any]) -> dict[str, Any]:
+    items_lists = data.get("items_lists", {}) if isinstance(data.get("items_lists"), dict) else {}
+    series_list = items_lists.get("series_list", [])
+    seasons_list = items_lists.get("seasons_list", [])
+
+    return {
+        "series": [normalize_series(s) for s in (series_list or [])],
+        "seasons": [normalize_season(s) for s in (seasons_list or [])],
+    }
