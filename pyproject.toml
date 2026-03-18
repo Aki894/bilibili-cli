@@ -1,6 +1,6 @@
 [project]
 name = "bilibili-cli"
-version = "0.6.0"
+version = "0.6.2"
 description = "A CLI for Bilibili — browse videos, users, favorites from the terminal"
 readme = "README.md"
 license = "Apache-2.0"
@@ -66,6 +66,12 @@ ignore_missing_imports = true
 check_untyped_defs = true
 warn_unused_ignores = true
 no_implicit_optional = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+check_untyped_defs = false
+disable_error_code = ["var-annotated", "arg-type"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

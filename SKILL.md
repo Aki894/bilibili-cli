@@ -2,7 +2,7 @@
 name: bilibili-cli
 description: CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YAML output for AI agents to browse videos, users, search, trending, dynamics, favorites, and interactions from the terminal
 author: jackwener
-version: "1.0.0"
+version: "0.6.2"
 tags:
   - bilibili
   - 哔哩哔哩
@@ -37,6 +37,10 @@ uv tool install bilibili-cli
 # If you need audio extraction support (requires PyAV)
 uv tool install "bilibili-cli[audio]"
 # Or: pipx install "bilibili-cli[audio]"
+
+# Upgrade to latest (recommended to avoid API errors)
+uv tool upgrade bilibili-cli
+# Or: pipx upgrade bilibili-cli
 ```
 
 ## Authentication
